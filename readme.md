@@ -1,6 +1,6 @@
 ## PatternMatcher
 
-PatterMatcher is a library to allow for more robust pattern matching in Javascript. Essentially you can create a switch like function 
+PatterMatcher is a library to allow for more robust pattern matching in Javascript. Essentially you can create a switch like function
 by Alex Merced of AlexMercedCoder.com
 
 **NOTE** The eval function is no longer used since version 1.0.3, replaced with the safer and faster Function constructor
@@ -12,18 +12,15 @@ To Install PatterMatcher
 to import the libraries functions
 
 ```js
-
 const {
   createMatcher,
   createSingleMatcher,
   matchArray,
   matchObject,
 } = require("./index.js");
-
 ```
 
 ## createMatcher & createSingleMatcher
-
 
 These create a matching function. It takes one arguments which is array of arrays, each subarray should have two elements.
 
@@ -36,6 +33,7 @@ The matching function returned takes one argument, the value to be matched and r
 - a matcher created with createSingleMatch will allow for a single match
 
 **createMatcher**
+
 ```js
 //////////////////////////////////////
 // Creating a Matcher for a Single Value and an Array of Values
@@ -59,6 +57,7 @@ The matching function returned takes one argument, the value to be matched and r
 ```
 
 **createSingleMatcher**
+
 ```js
 {
   // Create  Matcher with patterns
@@ -97,25 +96,44 @@ Similar to match array but for objects. It will turn the Object into an array of
 //////////////////////////////////////
 
 {
+  // The Object to be matched
+  const alex = {
+    name: "Alex Merced",
+    age: 36,
+    website: "AlexMercedCoder.com",
+  };
 
-    // The Object to be matched
-    const alex = {
-        name: "Alex Merced",
-        age: 36,
-        website: "AlexMercedCoder.com"
-    }
+  // Create Matcher with patterns
+  const matcher = createSingleMatcher([
+    ["v[0] === 'name'", (v) => `The name is ${v[1]}`],
+    ["v[0] === 'age'", (v) => `The age is ${v[1]}`],
+    ["v[0] === 'website'", (v) => `The website is ${v[1]}`],
+  ]);
 
-    // Create Matcher with patterns
+  // using the matcher on an object
+  const result = matchObject(alex, matcher);
+  console.log(result);
+  // [ [ 'The name is Alex Merced' ], [ 'The age is 36' ], [ 'The website is AlexMercedCoder.com' ] ]
+}
+//////////////////////////////////////////////////////
+```
+
+## Tips
+
+- If you want to check whether the value is a custom type do this `v.constructor.name === "TypeName"` not this `v instanceof TypeName`, you will have scoping issues with the latter. Either works fine with built-in types.
+
+- A Function is dynamically generated using the function constructor to evaluate each pattern, the Function constructor will always create the function in the global scope not the local scope, so keep that in mind in any variable references.
+
+- Both createMatcher and createSingleMatcher take a second argument as an object with any external value/functions you want to reference in your expression such `v === ex.type` would allow you to use a variable defined outside
+
+**Example of Using Externals**
+```js
+    const str = "name"
+
+    // Create Matcher with patterns, pass in externals as second argument
     const matcher = createSingleMatcher([
-      ["v[0] === 'name'", (v) => `The name is ${v[1]}`],
+      ["v[0] === ex.str", (v) => `The name is ${v[1]}`],
       ["v[0] === 'age'", (v) => `The age is ${v[1]}`],
       ["v[0] === 'website'", (v) => `The website is ${v[1]}`],
-    ]);
-  
-    // using the matcher on an object
-    const result = matchObject(alex, matcher)
-    console.log(result)
-    // [ [ 'The name is Alex Merced' ], [ 'The age is 36' ], [ 'The website is AlexMercedCoder.com' ] ]
-  }
-  //////////////////////////////////////////////////////
-  ```
+    ], {str});
+```

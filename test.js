@@ -61,12 +61,14 @@ const {
         website: "AlexMercedCoder.com"
     }
 
+    const str = "name"
+
     // Create Matcher with patterns
     const matcher = createSingleMatcher([
-      ["v[0] === 'name'", (v) => `The name is ${v[1]}`],
+      ["v[0] === ex.str", (v) => `The name is ${v[1]}`],
       ["v[0] === 'age'", (v) => `The age is ${v[1]}`],
       ["v[0] === 'website'", (v) => `The website is ${v[1]}`],
-    ]);
+    ], {str});
   
     // using the matcher on an object
     const result = matchObject(alex, matcher)

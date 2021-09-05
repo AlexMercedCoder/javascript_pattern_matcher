@@ -1,9 +1,9 @@
-function createMatcher(patterns) {
+function createMatcher(patterns, ex = {}) {
   try {
     return (v) => {
       let result = [];
       patterns.forEach(([pattern, callback], index) => {
-        if ((Function("v",`return Boolean(${pattern})`))(v)) {
+        if ((Function("v", "ex",`return Boolean(${pattern})`))(v, ex)) {
           result.push(callback(v));
         }
       });
@@ -14,12 +14,12 @@ function createMatcher(patterns) {
   }
 }
 
-function createSingleMatcher(patterns) {
+function createSingleMatcher(patterns, ex = {}) {
   try {
     return (v) => {
       let result = [];
       patterns.every(([pattern, callback], index) => {
-        if ((Function("v",`return Boolean(${pattern})`))(v)) {
+        if ((Function("v", "ex",`return Boolean(${pattern})`))(v, ex)) {
           result.push(callback(v));
           return false;
         } else {
