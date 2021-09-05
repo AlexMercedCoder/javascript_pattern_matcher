@@ -3,6 +3,8 @@
 PatterMatcher is a library to allow for more robust pattern matching in Javascript. Essentially you can create a switch like function 
 by Alex Merced of AlexMercedCoder.com
 
+**NOTE** The eval function is no longer used since version 1.0.3, replaced with the safer and faster Function constructor
+
 To Install PatterMatcher
 
 `npm install alexmerced-patternmatcher`

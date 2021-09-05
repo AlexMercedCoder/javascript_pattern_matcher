@@ -1,6 +1,6 @@
 {
   "name": "alexmerced-patternmatcher",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Library to allow for pattern matching in javascript",
   "main": "index.js",
   "scripts": {

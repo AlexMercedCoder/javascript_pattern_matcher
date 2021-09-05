@@ -3,7 +3,7 @@ function createMatcher(patterns) {
     return (v) => {
       let result = [];
       patterns.forEach(([pattern, callback], index) => {
-        if (eval(`Boolean(${pattern})`)) {
+        if ((Function("v",`return Boolean(${pattern})`))(v)) {
           result.push(callback(v));
         }
       });
@@ -19,7 +19,7 @@ function createSingleMatcher(patterns) {
     return (v) => {
       let result = [];
       patterns.every(([pattern, callback], index) => {
-        if (eval(`Boolean(${pattern})`)) {
+        if ((Function("v",`return Boolean(${pattern})`))(v)) {
           result.push(callback(v));
           return false;
         } else {
