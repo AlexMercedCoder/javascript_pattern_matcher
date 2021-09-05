@@ -1,7 +1,7 @@
 {
   "name": "alexmerced-patternmatcher",
-  "version": "1.0.1",
-  "description": "",
+  "version": "1.0.2",
+  "description": "Library to allow for pattern matching in javascript",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
